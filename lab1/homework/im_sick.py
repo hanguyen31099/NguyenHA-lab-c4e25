@@ -11,11 +11,11 @@ now = datetime.datetime.now()
 import random
 while True:
     run_once=0
-    while run_once==1:
+    while run_once==0:
         if now.hour==7:
             x=random.choice(sickness_list)
-            run_once=1
             html_content = html.replace('{{sickness}}',x)
             gmail = GMail('ducha31099@gmail.com>','donguczong99')
             msg = Message('Test Message',to='qhuydtvt@gmail.com',html=html_content)
             gmail.send(msg)
+            run_once=1
