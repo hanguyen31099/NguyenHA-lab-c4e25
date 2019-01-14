@@ -1,28 +1,35 @@
-def gmail_content():
-    reason = {
-            'cảm cúm' : 'Em sổ mũi và ho liên tục',
-            'tiêu chảy' : 'Em đi ngoài rất nhiều lần',
-            'đau dạ dày' : 'Bụng em đau dữ dội',
-            'giãn dây chằng' : 'Lưng em rất đau đớn, không ngồi thẳng được'
-        }
-    html='''
-    <p>Hello sếp</p>
-    <p>Hôm nay em xin phép <b>nghỉ làm</b> vì em bị <i>{{sickness}}</i>, em cảm thấy không khỏe, <em>{{symptom}}</em></p>
-    <p><img src="https://html5-editor.net/tinymce/plugins/emoticons/img/smiley-cry.gif" alt="cry" /></p>
-    <p>&nbsp;</p>
-    '''
-    rk = random.choice(list(reason.keys()))
-    html_content = html.replace('{{sickness}}',rk).replace('{{symptom}}',reason[rk])
-    return html_content
+uri="mongodb://admin:admin1@ds133360.mlab.com:33360/c4e25"
+# conect to data base (mlab)
+from pymongo import MongoClient
+client = MongoClient(uri)
+# Getting a Database
+db = client.get_database()
+# Getting a Collection
+customers = db['customers']
+ev = 0
+ad = 0
+wom = 0
+for customer in customers.find():
+    if customer['ref'] == 'events':
+        ev += 1
+    elif customer['ref'] == 'wom':
+        wom += 1
+    else:
+        ad += 1
+    # print(customer['ref'])
 
-def gmail_send(content,receiver):
-    # gmail = GMail('ducha31099@gmail.com>','donguczong99')
-    # msg = Message('Test Message',to=receiver,html=content)
-    # gmail.send(msg)
-    print(content)
-#main
-import gmail
-import random
-content=gmail_content()
-receiver = 'qhuydtvt@gmail.com'
-gmail_send(content,receiver)
+import matplotlib.pyplot as plt
+
+# Data to plot
+labels = 'Events', 'Advertisements', 'Word of Mouth'
+sizes = [ev, ad, wom]
+colors = ['gold', 'yellowgreen', 'lightcoral']
+explode = (0.1, 0.1, 0)  # explode 1st slice
+for i in range(3):
+    print('Number of customer accquire by ',labels[i],': ',sizes[i],sep='')
+# Plot
+plt.pie(sizes, explode=explode, labels=labels, colors=colors,
+        autopct='%1.1f%%', shadow=True, startangle=140)
+ 
+plt.axis('equal')
+plt.show()

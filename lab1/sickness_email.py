@@ -38,7 +38,7 @@ gmail_content(reason_dict)
 while True:
     run_once=0
     while run_once==0:
-        if now.hour==time
+        if now.hour==time:
             content= gmail_content()
             gmail_send(ID_email,password_email,receiver,content)
             run_once=1
